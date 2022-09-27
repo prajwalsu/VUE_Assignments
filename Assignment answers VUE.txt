@@ -1,0 +1,621 @@
+*cdn link= https://unpkg.com/vue@next
+
+=========================================
+Assignment 1 (19/9/22)
+=========================================
+1.what is  VUE.js?
+==> Vue (pronounced /vjuː/, like view) is a JavaScript framework for building user interfaces. 
+It builds on top of standard HTML, CSS and JavaScript, and provides a declarative and 
+component-based programming model that helps you efficiently develop user interfaces, 
+be it simple or complex.
+
+2.Why should we choose VUE.js?
+==>  -Enhancing static HTML without a build step
+	-Embedding as Web Components on any page
+	-Single-Page Application (SPA)
+	-Fullstack / Server-Side Rendering (SSR)
+	-Jamstack / Static Site Generation (SSG)
+	-Targeting desktop, mobile, WebGL, and even the terminal
+
+3.What is Single Page  Applications
+==>The page that handles data updates and navigation without having to reload to the page.
+
+4.Events in Vue(5  examples)
+==> *INLINE HANDLERS.
+//in app//
+    data() {
+  return {
+    count: 0
+  }
+}
+//in html//
+<button @click="count++">Add 1</button>
+<p>Count is: {{ count }}</p>
+
+*METHOD HANDLERS
+//in app//
+data() {
+  return {
+    name: 'Vue.js'
+  }
+},
+methods: {
+  greet(event) {
+    // `this` inside methods points to the current active instance
+    alert(`Hello ${this.name}!`)
+    // `event` is the native DOM event
+    if (event) {
+      alert(event.target.tagName)
+    }
+  }
+}
+
+//in html//
+<!-- `greet` is the name of the method defined above -->
+<button @click="greet">Greet</button>
+
+5.What are VUE directives (explain 5 directives)
+==> Directives are instruction for VueJS to do things in a certain way.
+v-on===clicking on button
+v-once===it will return only one constant data
+
+
+6.Example of two way binding
+==> //in html//
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello world</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+     <div id="first">
+         <h1>First VUE application</h1>
+         <h2>{{greeting}}</h2>
+
+         <h2>Person name is: {{person.name}} </h2>
+
+         <!-- we can call the function
+        we can write mathematical call
+    we can not writecomplex if else condition -->
+
+    <!-- <h3>{{1+4}} -->
+
+        <!-- using v-html directive to read the raw html -->
+        <h3 v-html="randomOutput()"></h3> 
+     </div>
+
+     <script src="./app.js"></script>
+     
+     <script src="./fetch.js"></script>
+</body>
+
+</html>
+
+//in app//
+let app = Vue.createApp({
+    data() {
+        return {
+            email: ""
+        }
+    },
+    
+    methods:{
+        // //setName(event) {
+        //     this.email=event.target.value
+        // },
+        reset(){
+            this.email=""
+        }
+    }
+})
+app.mount('#dataBinding')
+
+=====================================================
+Assignment 2 (20/9/22)
+=====================================================
+
+1.Explain v-once, v-html, v-if, v-else,
+v-show,v-bind,v-model,v-show
+
+==> //v-once- Render the element and component once only, and skip future updates.
+
+ -Does not expect expression
+
+ -Details
+
+  On subsequent re-renders, the element/component and all its children will be
+  treated as static content and skipped. This can be used to optimize update performance.
+
+//v-html- Update the element's innerHTML.
+
+Expects: string
+
+//v-if- Conditionally render an element or a template fragment based on the 
+truthy-ness of the expression value.
+
+Expects: any
+
+V-if more preror than v-for
+
+//v-else- Denote the "else block" for v-if or a v-if / v-else-if chain.
+can be used in template
+
+Does not expect expression
+
+//v-show- Toggle the element's visibility based on the truthy-ness of t
+he expression value.
+
+Expects: any
+
+//v-bind -Dynamically bind one or more attributes, or a component prop to an expression.
+
+Shorthand: : or . (when using .prop modifier)
+
+Expects: any (with argument) | Object (without argument)
+
+//v-model -Create a two-way binding on a form input element or a component.
+
+Expects: varies based on value of form inputs element or output of components
+
+Limited to:
+
+<input>
+<select>
+<textarea>
+components
+
+
+
+2.Iterate through array using v-for and display in list format (5 examples)
+==> 
+
+3.Explain computed properties
+==> 
+In-template,  expressions are very convenient, but they are meant for simple operations. 
+So we use computed properties it will maintain the hard code.
+for complex logic that includes reactive data, it is recommended to use a computed property. 
+
+4.Explain watchers
+==>we can use the watch option to trigger a function whenever a reactive property changes.
+
+in the cases where we need to perform "side effects" in reaction to state changes
+
+
+Deep Watchers-watch is shallow by default: 
+the callback will only trigger when the watched property has been assigned a new value -
+it won't trigger on nested property changes. 
+If you want the callback to fire on all nested mutations, you need to use a deep watcher:
+
+5.What is ref? why to use it?
+==>ref is a special attribute, similar to the key attribute in the v-for. 
+It allows us to obtain a direct reference to a specific DOM element or child component instance after it's mounted.
+
+6.Explain all the lifecycle methods
+==>
+LIFE CYCLE METHODS
+====================
+
+3 phases
+-----------
+1.MOUNTING
+2.UPDATING
+3.UNMOUNTING
+
+1.Mounting
+
+beforeCreate
+-------------
+Called when the instance is initialized.
+
+Called immediately when the instance is initialized, after props resolution, before processing other options such as data() or computed:
+
+created
+----------
+Called after the instance has finished processing all state-related options.
+
+Details
+
+When this hooks is called, the following have been set up: reactive data, computed properties, methods, and watchers.
+However, the mounting phase has not been started, and the $el property will not be available yet.
+
+beforeMount
+------------
+Called right before the component is to be mounted.
+
+Details
+
+When this hook is called, the component has finished setting up its reactive state, but no DOM nodes have been created yet. 
+It is about to execute its DOM render effect for the first time.
+
+This hook is not called during server-side rendering.
+
+mounted (api calls)
+----------
+Called after the component has been mounted.
+
+Details
+
+A component is considered mounted after:
+
+All of its synchronous child components have been mounted (does not include async components or components inside <Suspense> trees).
+
+Its own DOM tree has been created and inserted into the parent container. 
+Note it only guarantees that the component's DOM tree is in-document if the application's root container is also in-document.
+
+This hook is typically used for performing side effects that need access to the component's rendered DOM,
+ or for limiting DOM-related code to the client in a server-rendered application.
+
+This hook is not called during server-side rendering
+
+
+
+2.Update phase
+================
+
+beforeUpdate
+--------------
+Called right before the component is about to update its DOM tree due to a reactive state change.
+
+Details
+
+This hook can be used to access the DOM state before Vue updates the DOM.
+It is also safe to modify component state inside this hook.
+
+This hook is not called during server-side rendering.
+
+updated
+---------------
+Called after the component has updated its DOM tree due to a reactive state change.
+
+Details
+
+A parent component's updated hook is called after that of its child components.
+
+This hook is called after any DOM update of the component, 
+which can be caused by different state changes. 
+If you need to access the updated DOM after a specific state change, use nextTick() instead.
+
+This hook is not called during server-side rendering.
+
+
+3.Unmount Phase
+================
+
+beforeUnmount
+----------------
+Called right before a component instance is to be unmounted.
+
+Details
+
+When this hook is called, the component instance is still fully functional.
+
+This hook is not called during server-side rendering.
+
+unmounted
+------------------
+Called after the component has been unmounted.
+
+Details
+
+A component is considered unmounted after:
+---------------------------------------------
+All of its child components have been unmounted.
+
+All of its associated reactive effects (render effect and computed / watchers created during setup()) have been stopped.
+
+Use this hook to clean up manually created side effects such as timers, DOM event listeners or server connections.
+
+This hook is not called during server-side rendering.
+
+7.create 5 projects
+	vue create appname
+	second -app
+	third-app
+	fourth-app
+	fifth-app
+
+==========================================
+Assignement 3 (21/9/22)
+==========================================
+
+1.What are props?
+==> “Props” is a special keyword which stands for properties.
+ It can be registered on a component to pass data from a parent component to one of its children components.
+
+2.send data from parent to child (3 ex)
+
+3.send data from child to parent(5 ex)
+
+4.How to validatte props?(3 ex)
+==>Components can specify requirements for their props, such as TYPE in React.
+ If a requirement is not met, Vue will warn you in the browser's JavaScript console.
+ This is especially useful when developing a component that is intended to be used by others.
+
+ To specify prop validations, you can provide an object with validation requirements to the props option, 
+ instead of an array of strings.     
+
+5.conditional rendering(3 ex)
+==>CONDITIONAL RENDERING
+======================
+The directive v-if 
+-------------------
+it is used to conditionally render a block. 
+The block will only be rendered if the directive's expression returns a truthy value.
+
+
+v-else
+-------
+You can use the v-else directive to indicate an "else block" for v-if
+
+A v-else element must immediately follow a v-if or a v-else-if element - otherwise it will not be recognized.
+
+v-else-if
+-----------
+The v-else-if, as the name suggests, serves as an "else if block" for v-if. 
+It can also be chained multiple times
+
+6.How  to avoid props drilling?
+
+7.Explain provide and inject?
+==> Usually, when we need to pass data from the parent to a child component, we use props.
+   If we have a large component tree, and a deeply nested component needs something from a distant ancestor component. 
+   With only props, we would have to pass the same prop across the entire parent chain:
+  
+   If there is a longer parent chain, more components would be affected along the way. This is called "props drilling" 
+                                                                                                      ------------------
+   To avoid the prop drilling we use Provide and Inject.
+
+   A parent component can serve as a dependency provider for all its descendants. 
+   Any component in the descendant tree, regardless of how deep it is, 
+   can inject dependencies provided by components up in its parent chain.
+
+8.Receipe app final date: 23 sept 2022
+
+9.Revise all the previous concepts
+
+==========================================
+Assignment 4 (22/9/22)
+==========================================
+1.What are dynamic components and how to create dynamic components?
+==>Vue dynamic components enable users to switch between two or more components without routing, 
+and even retain the state of data when switching back to the initial component. 
+The central idea is to let users dynamically mount and unmount components in the user interface without using routers.
+
+//code in app.vue
+
+<template>
+  <router-link to="/">Home</router-link>
+  <button @click="createComponent">Create Component</button>
+
+  <router-view></router-view>
+</template>
+
+<script>
+import { getCurrentInstance } from "vue";
+import { useRouter } from "vue-router";
+export default {
+  name: "App",
+  setup() {
+    const app = getCurrentInstance().appContext.app;
+    const router = useRouter();
+
+    const createComponent = () => {
+      // Check if the component has been alreadey registered
+      if (!app.component("NewComponent")) {
+        app.component("NewComponent", {
+          name: "NewComponent",
+          template: `
+        <div>This is a new component</div>
+        `,
+        });
+      }
+
+      const newComponent = app.component("NewComponent");
+      // Adding a new route to the new component
+      router.addRoute({ path: "/new", component: newComponent });
+
+      router.push("/new");
+    };
+    return {
+      createComponent,
+    };
+  },
+};
+</script>
+
+<style>
+</style>
+
+
+2.Expalin <Keep-alive>?
+==> a component will be unmounted when it is switched away from that component. 
+ We can force the inactive components to stay "alive" with the built-in <KeepAlive> component.
+
+3.How to scope the style in a component?
+==>When a <style> tag has the scoped attribute, its CSS will apply to elements of the current component only. 
+This is similar to the style encapsulation found in Shadow DOM.
+
+4.creatte a form with custom validation
+
+5.create a form by using VeeValidate with proper validation
+
+6.Explain code splitting and lazy loading
+==>Code splitting is where a tool splits the application bundle into multiple smaller chunks, 
+which can then be loaded on demand or in parallel.
+
+=========================================
+Assignment 5 (26/9/22)
+=========================================
+
+1.Explain filters (3_ex)
+==> A Filter is a simple JavaScript function which is used to change the output of a data to the browser.
+ Filters in Vue. JS don't change the data directly wherever we store them, it only applies formatting to our data. 
+The data remains the same only the output of a data to a browser is changed.
+
+ex:1. <li v-for="n in evenNumbers">{{ n }}</li>
+
+const numbers = ref([1, 2, 3, 4, 5])
+
+const evenNumbers = computed(() => {
+  return numbers.value.filter((n) => n % 2 === 0)
+})
+
+2.<ul v-for="numbers in sets">
+  <li v-for="n in even(numbers)">{{ n }}</li>
+</ul>
+
+const sets = ref([
+  [1, 2, 3, 4, 5],
+  [6, 7, 8, 9, 10]
+])
+
+function even(numbers) {
+  return numbers.filter((number) => number % 2 === 0)
+}
+
+
+
+
+2.Explian Mixins (3_ex)
+==>Mixins are a flexible way to distribute reusable functionalities for Vue components. 
+A mixin object can contain any component options. When a component uses a mixin, 
+all options in the mixin will be “mixed” into the component’s own options.
+
+ex:1.// define a mixin object
+var myMixin = {
+  created: function () {
+    this.hello()
+  },
+  methods: {
+    hello: function () {
+      console.log('hello from mixin!')
+    }
+  }
+}
+
+// define a component that uses this mixin
+var Component = Vue.extend({
+  mixins: [myMixin]
+})
+
+var component = new Component() // => "hello from mixin!"
+
+----
+
+2. var mixin = {
+  data: function () {
+    return {
+      message: 'hello',
+      foo: 'abc'
+    }
+  }
+}
+
+new Vue({
+  mixins: [mixin],
+  data: function () {
+    return {
+      message: 'goodbye',
+      bar: 'def'
+    }
+  },
+  created: function () {
+    console.log(this.$data)
+    // => { message: "goodbye", foo: "abc", bar: "def" }
+  }
+})
+--
+
+3.const mixin = {
+  created() {
+    console.log(1)
+  }
+}
+
+createApp({
+  created() {
+    console.log(2)
+  },
+  mixins: [mixin]
+})
+
+// => 1
+// => 2
+
+
+3.What is axios?
+==>Axios is a promise-based HTTP Client for node.js and the browser.
+ It is isomorphic (= it can run in the browser and nodejs with the same codebase). 
+ On the server-side it uses the native node.js http module, while on the client (browser) it uses XMLHttpRequests.
+
+4.Explain axios instance and axios interceptors?
+==>
+
+5.diff b/w fetch and axios
+==>
+
+				Axios	
+													                     Fetch
+
+Axios has url in request object.									Fetch has no url in request object.
+Axios is a stand-alone third party package that can be easily installed.	Fetch is built into most modern browsers; no installation is required as such.
+Axios enjoys built-in XSRF protection.								Fetch does not.
+Axios uses the data property.									Fetch uses the body property.
+Axios’ data contains the object.									Fetch’s body has to be stringified.
+Axios request is ok when status is 200 and statusText is ‘OK’.			Fetch request is ok when response object contains the ok property.
+Axios performs automatic transforms of JSON data.						Fetch is a two-step process when handling JSON data- first, to make the actual request; second, to call the .json() method on the response.
+Axios allows cancelling request and request timeout.					Fetch does not.
+Axios has the ability to intercept HTTP requests.						Fetch, by default, doesn’t provide a way to intercept requests.
+Axios has built-in support for download progress.						Fetch does not support upload progress.
+Axios has wide browser support.									Fetch only supports Chrome 42+, Firefox 39+, Edge 14+, and Safari 10.1+ (This is known as Backward Compatibility).
+Axios “GET” call can have body Content								Fetch “GET” call cannot have body Content
+
+
+6.CRUD operation locally
+
+7.Registration form and validation using vee-validate
+
+======================================================
+
+			Assignment 6 (27/9/22)
+======================================================
+
+1. What are axios interceptors? (2 ex)
+==>Axios interceptors are functions that Axios calls for every request. 
+   You can use interceptors to transform the request before Axios sends it, 
+   or transform the response before Axios returns the response to your code. 
+   You can think of interceptors as Axios' equivalent to middleware in Express.
+
+ex 1. // Add a request interceptor
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+  }, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error);
+  });
+
+2.create  5 reusable components
+
+3.Explain slots and named slots
+==> slots = The <slot> element is a slot outlet that indicates where the parent-provided slot content should be rendered.
+
+    named slots =  named slots can be used to assign a unique ID to different slots so  can determine where content should be rendered:
+
+4.complete CRUD operation
